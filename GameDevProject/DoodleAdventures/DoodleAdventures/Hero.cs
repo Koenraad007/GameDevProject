@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,7 +11,6 @@ public class Hero : IGameObject
 {
     private Texture2D _head, _torso, _armR, _armL, _legR, _legL;
     private Vector2 _position;
-    private Vector2 _speed;
     private Vector2 _acceleration;
     private short _rotation, _armRotationDirection;
     private float _rightArmRotation, _leftArmRotation;
@@ -26,8 +26,7 @@ public class Hero : IGameObject
         _legL = legL;
 
         _position = new Vector2(100, 100);
-        _speed = new Vector2(1, 1);
-        _acceleration = new Vector2(0, 9);
+        _acceleration = Vector2.Zero;
         _rotation = 0;
 
         _rightArmRotation = 1.3f;
@@ -62,21 +61,26 @@ public class Hero : IGameObject
 
     private void Move()
     {
-        KeyboardState state = Keyboard.GetState();
-        _speed = Vector2.Zero;
-        short maxSpeed = 10;
+        var state = Keyboard.GetState();
+        var speed = Vector2.Zero;
+        const short maxSpeed = 10;
+        var gravity = new Vector2(0, 10);
         
         // speed up
-        if (state.IsKeyDown(Keys.Left) && _acceleration.X >= maxSpeed*(-1)) _acceleration.X--;
-        if (state.IsKeyDown(Keys.Right) && _acceleration.X <= maxSpeed) _acceleration.X++;
+        if (state.IsKeyDown(Keys.Left) && _acceleration.X > maxSpeed*(-1)) _acceleration.X--;
+        if (state.IsKeyDown(Keys.Right) && _acceleration.X < maxSpeed) _acceleration.X++;
+        if (state.IsKeyDown(Keys.Up) && ((_position.Y + 80) > 470)) _acceleration.Y = -30;
         // slow down
         if (state.IsKeyUp(Keys.Left) && _acceleration.X < 0) _acceleration.X++;
         if (state.IsKeyUp(Keys.Right) && _acceleration.X > 0) _acceleration.X--;
+        if (_acceleration.Y < 0) _acceleration.Y++;
 
-        _speed += _acceleration;
+        speed += _acceleration + gravity;
         
         // check if the sprite doesn't touch the border
-        if (_position.X+_speed.X >= 0 && _position.X+40+_speed.X <= 640) _position.X += _speed.X;
-        if (_position.Y + 80 + _speed.Y <= 480) _position.Y += _speed.Y;
+        if (_position.X+speed.X >= 0 && _position.X+40+speed.X <= 640) _position.X += speed.X;
+        if (_position.Y + 80 + speed.Y <= 480) _position.Y += speed.Y;
+
+        Console.WriteLine($"pos: {_position}");
     }
 }
