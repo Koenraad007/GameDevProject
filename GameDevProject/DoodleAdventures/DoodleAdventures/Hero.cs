@@ -11,6 +11,7 @@ public class Hero : IGameObject
     private Vector2 _position;
     private int _speed;
     private short _rotation;
+    private float _rightArmRotation, _leftArmRotation;
 
     public Hero(Texture2D head, Texture2D torso, Texture2D armR, Texture2D armL, Texture2D legR, Texture2D legL)
     {
@@ -24,6 +25,9 @@ public class Hero : IGameObject
         _position = new Vector2(100, 100);
         _speed = 1;
         _rotation = 0;
+
+        _rightArmRotation = 1.3f;
+        _leftArmRotation = -1.3f;
     }
 
     public void Update(GameTime gameTime)
@@ -34,11 +38,12 @@ public class Hero : IGameObject
     public void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(_torso, _position, Color.White);
-        spriteBatch.Draw(_head,_position-new Vector2(0,40),Color.White);
-        spriteBatch.Draw(_armL, _position-new Vector2(40,0),Color.White);
-        spriteBatch.Draw(_armR, _position+new Vector2(40,0),Color.White);
+        spriteBatch.Draw(_head,_position+new Vector2(0,-40),Color.White);
+        spriteBatch.Draw(_armL, _position+new Vector2(0,0), new Rectangle(0,0,40,20),Color.White, _leftArmRotation, new Vector2(40,10), 1f, SpriteEffects.None, 0f);
+        spriteBatch.Draw(_armR, _position+new Vector2(40,0),new Rectangle(0,0,40,20),Color.White, _rightArmRotation, new Vector2(0,10), 1f, SpriteEffects.None, 0f);
         spriteBatch.Draw(_legL, _position+new Vector2(0,40),Color.White);
         spriteBatch.Draw(_legR, _position+new Vector2(20,40),Color.White);
+        
     }
 
     private void Move()
