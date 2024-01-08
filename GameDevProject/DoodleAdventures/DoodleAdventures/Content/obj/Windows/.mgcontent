@@ -10,9 +10,13 @@
     <File>C:/Users/Koenv/Mijn Drive/School/AP/Semester 3/Game Dev/GameDevProject/DoodleAdventures/DoodleAdventures/Content/right_arm.png</File>
     <File>C:/Users/Koenv/Mijn Drive/School/AP/Semester 3/Game Dev/GameDevProject/DoodleAdventures/DoodleAdventures/Content/right_leg.png</File>
     <File>C:/Users/Koenv/Mijn Drive/School/AP/Semester 3/Game Dev/GameDevProject/DoodleAdventures/DoodleAdventures/Content/sqrd_grid_paper.jpg</File>
+    <File>C:/Users/Koenv/Mijn Drive/School/AP/Semester 3/Game Dev/GameDevProject/DoodleAdventures/DoodleAdventures/Content/tileset.png</File>
+    <File>C:/Users/Koenv/Mijn Drive/School/AP/Semester 3/Game Dev/GameDevProject/DoodleAdventures/DoodleAdventures/Content/tileset32.png</File>
     <File>C:/Users/Koenv/Mijn Drive/School/AP/Semester 3/Game Dev/GameDevProject/DoodleAdventures/DoodleAdventures/Content/torso.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
