@@ -9,8 +9,8 @@ public class Hero : IGameObject
     private Texture2D _head, _torso, _armR, _armL, _legR, _legL;
     private Vector2 _position;
     private Vector2 _acceleration;
-    private short _rotation, _armRotationDirection;
-    private float _rightArmRotation, _leftArmRotation;
+    private short _rotation, _armRotationDirection, _legRotationDirection;
+    private float _rightArmRotation, _leftArmRotation, _rightLegRotation;
     private double _secondCtr = 0;
 
     public Hero(Texture2D head, Texture2D torso, Texture2D armR, Texture2D armL, Texture2D legR, Texture2D legL)
@@ -28,7 +28,9 @@ public class Hero : IGameObject
 
         _rightArmRotation = 1.3f;
         _leftArmRotation = -1.3f;
+        _rightLegRotation = 0f;
         _armRotationDirection = 1;
+        _legRotationDirection = 1;
     }
 
     public void Update(GameTime gameTime)
@@ -41,6 +43,13 @@ public class Hero : IGameObject
         {
             if (_rightArmRotation is < 1.3f or > 1.8f) _armRotationDirection *= -1;
             _rightArmRotation += 0.01f * _armRotationDirection;
+
+            if (_acceleration.X != 0)
+            {
+                if (_rightLegRotation is < 0f or > 0.3f) _legRotationDirection *= -1;
+                _rightLegRotation += 0.05f * _legRotationDirection;
+            }
+            
             Move();
         }
     }
@@ -51,8 +60,8 @@ public class Hero : IGameObject
         spriteBatch.Draw(_armL, _position+new Vector2(0,0), new Rectangle(0,0,40,20),Color.White, _rightArmRotation*(-1), new Vector2(40,10), 1f, SpriteEffects.None, 0f);
         spriteBatch.Draw(_torso, _position, Color.White);
         spriteBatch.Draw(_armR, _position+new Vector2(40,0),new Rectangle(0,0,40,20),Color.White, _rightArmRotation, new Vector2(0,10), 1f, SpriteEffects.None, 0f);
-        spriteBatch.Draw(_legL, _position+new Vector2(0,40),Color.White);
-        spriteBatch.Draw(_legR, _position+new Vector2(20,40),Color.White);
+        spriteBatch.Draw(_legL, _position+new Vector2(10,40),new Rectangle(0,0,20,40),Color.White, _rightLegRotation*(-1), new Vector2(10,0),1f,SpriteEffects.None,0f);
+        spriteBatch.Draw(_legR, _position+new Vector2(30,40),new Rectangle(0,0,20,40),Color.White, _rightLegRotation, new Vector2(10,0),1f,SpriteEffects.FlipHorizontally,0f);
         
     }
 
