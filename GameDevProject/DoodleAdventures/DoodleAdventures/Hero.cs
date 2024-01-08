@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SharpDX.MediaFoundation;
 
 namespace DoodleAdventures;
 
@@ -73,14 +70,12 @@ public class Hero : IGameObject
         // slow down
         if (state.IsKeyUp(Keys.Left) && _acceleration.X < 0) _acceleration.X++;
         if (state.IsKeyUp(Keys.Right) && _acceleration.X > 0) _acceleration.X--;
-        if (_acceleration.Y < 0) _acceleration.Y++;
+        if (_acceleration.Y < 0) _acceleration.Y++;     // if the hero isn't jumping anymore (after pressing Up once), decrease the acceleration on the y-axis
 
         speed += _acceleration + gravity;
         
         // check if the sprite doesn't touch the border
         if (_position.X+speed.X >= 0 && _position.X+40+speed.X <= 640) _position.X += speed.X;
         if (_position.Y + 80 + speed.Y <= 480) _position.Y += speed.Y;
-
-        Console.WriteLine($"pos: {_position}");
     }
 }
