@@ -10,9 +10,10 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-    private Texture2D _background;
+    private Texture2D _background, _tileSet;
     private Hero _hero;
     private Dictionary<string,Texture2D> _heroTextures;
+    private List<Block> _blocks = new List<Block>();
 
     public Game1()
     {
@@ -23,8 +24,6 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
-
         _graphics.PreferredBackBufferWidth = 640;
         _graphics.PreferredBackBufferHeight = 480;
         _graphics.ApplyChanges();
@@ -38,6 +37,8 @@ public class Game1 : Game
             _heroTextures["armL"],
             _heroTextures["legR"],
             _heroTextures["legL"]);
+        
+        CreateBlocks();
     }
 
     protected override void LoadContent()
@@ -56,6 +57,8 @@ public class Game1 : Game
             {"legR", Content.Load<Texture2D>("right_leg")},
             {"legL", Content.Load<Texture2D>("left_leg")}
         };
+
+        _tileSet = Content.Load<Texture2D>("tileset32");
     }
 
     protected override void Update(GameTime gameTime)
@@ -64,7 +67,6 @@ public class Game1 : Game
             Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        // TODO: Add your update logic here
         
         _hero.Update(gameTime);
 
@@ -75,12 +77,83 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
         _spriteBatch.Begin();
         _spriteBatch.Draw(_background,Vector2.Zero, new Rectangle(0,0,640,480),Color.White);
+        
+        foreach (var block in _blocks)
+        {
+            block.Draw(_spriteBatch);
+        }
+        
         _hero.Draw(_spriteBatch);
+        
+        
         _spriteBatch.End();
 
         base.Draw(gameTime);
+    }
+    
+    private void CreateBlocks()
+    {
+        int[,] gameboard = {
+            { 8, 8, 5, 5, 8, 5, 5, 5 },
+            { 0, 0, 7, 9, 0, 7, 8, 5 },
+            { 3, 0, 0, 0, 0, 0, 0, 4 },
+            { 6, 0, 0, 0, 0, 0, 0, 4 },
+            { 6, 0, 0, 0, 0, 0, 0, 4 },
+            { 6, 0, 0, 0, 0, 0, 0, 4 },
+            { 5, 2, 2, 2, 2, 2, 2, 5 },
+            { 5, 5, 5, 5, 5, 5, 5, 5 }
+        };
+
+
+        int tilesetSize = 32;
+        for (int i = 0; i < gameboard.GetLength(0); i++)
+        {
+            for (int j = 0; j < gameboard.GetLength(1); j++)
+            {
+                switch (gameboard[i, j])
+                {
+                    case 1:
+                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
+                            new Vector2(0 * tilesetSize, 0 * tilesetSize), tilesetSize));
+                        break;
+                    case 2:
+                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
+                            new Vector2(0 * tilesetSize, 1 * tilesetSize), tilesetSize));
+                        break;
+                    case 3:
+                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
+                            new Vector2(0 * tilesetSize, 2 * tilesetSize), tilesetSize));
+                        break;
+                    case 4:
+                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
+                            new Vector2(1 * tilesetSize, 0 * tilesetSize), tilesetSize));
+                        break;
+                    case 5:
+                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
+                            new Vector2(1 * tilesetSize, 1 * tilesetSize), tilesetSize));
+                        break;
+                    case 6:
+                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
+                            new Vector2(1 * tilesetSize, 2 * tilesetSize), tilesetSize));
+                        break;
+                    case 7:
+                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
+                            new Vector2(2 * tilesetSize, 0 * tilesetSize), tilesetSize));
+                        break;
+                    case 8:
+                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
+                            new Vector2(2 * tilesetSize, 1 * tilesetSize), tilesetSize));
+                        break;
+                    case 9:
+                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
+                            new Vector2(2 * tilesetSize, 2 * tilesetSize), tilesetSize));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 }
