@@ -13,7 +13,8 @@ public class Game1 : Game
     private Texture2D _background, _tileSet;
     private Hero _hero;
     private Dictionary<string,Texture2D> _heroTextures;
-    private List<Block> _blocks = new List<Block>();
+    private List<Block> _blocks;
+    private Level lvl1;
 
     public Game1()
     {
@@ -37,8 +38,9 @@ public class Game1 : Game
             _heroTextures["armL"],
             _heroTextures["legR"],
             _heroTextures["legL"]);
-        
-        CreateBlocks();
+
+        lvl1 = new Level(_tileSet, 32);
+        _blocks = lvl1.CreateBlocks("./level1.txt");        // txt files need to be in ./bin/Debug/net6/ -> needs to change
     }
 
     protected override void LoadContent()
@@ -90,69 +92,5 @@ public class Game1 : Game
         _spriteBatch.End();
 
         base.Draw(gameTime);
-    }
-    
-    private void CreateBlocks()
-    {
-        int[,] gameboard = {
-            { 8, 8, 5, 5, 8, 5, 5, 5 },
-            { 0, 0, 7, 9, 0, 7, 8, 5 },
-            { 3, 0, 0, 0, 0, 0, 0, 4 },
-            { 6, 0, 0, 0, 0, 0, 0, 4 },
-            { 6, 0, 0, 0, 0, 0, 0, 4 },
-            { 6, 0, 0, 0, 0, 0, 0, 4 },
-            { 5, 2, 2, 2, 2, 2, 2, 5 },
-            { 5, 5, 5, 5, 5, 5, 5, 5 }
-        };
-
-
-        int tilesetSize = 32;
-        for (int i = 0; i < gameboard.GetLength(0); i++)
-        {
-            for (int j = 0; j < gameboard.GetLength(1); j++)
-            {
-                switch (gameboard[i, j])
-                {
-                    case 1:
-                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
-                            new Vector2(0 * tilesetSize, 0 * tilesetSize), tilesetSize));
-                        break;
-                    case 2:
-                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
-                            new Vector2(0 * tilesetSize, 1 * tilesetSize), tilesetSize));
-                        break;
-                    case 3:
-                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
-                            new Vector2(0 * tilesetSize, 2 * tilesetSize), tilesetSize));
-                        break;
-                    case 4:
-                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
-                            new Vector2(1 * tilesetSize, 0 * tilesetSize), tilesetSize));
-                        break;
-                    case 5:
-                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
-                            new Vector2(1 * tilesetSize, 1 * tilesetSize), tilesetSize));
-                        break;
-                    case 6:
-                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
-                            new Vector2(1 * tilesetSize, 2 * tilesetSize), tilesetSize));
-                        break;
-                    case 7:
-                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
-                            new Vector2(2 * tilesetSize, 0 * tilesetSize), tilesetSize));
-                        break;
-                    case 8:
-                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
-                            new Vector2(2 * tilesetSize, 1 * tilesetSize), tilesetSize));
-                        break;
-                    case 9:
-                        _blocks.Add(new Block(new Vector2((j * tilesetSize), (i * tilesetSize)), _tileSet,
-                            new Vector2(2 * tilesetSize, 2 * tilesetSize), tilesetSize));
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
     }
 }

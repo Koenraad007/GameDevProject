@@ -30,7 +30,7 @@ public class Block: IGameObject
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        int scale = 2;
+        int scale = 1;
         spriteBatch.Draw(Texture,Position*scale,BoundingBox,Color,0f,new Vector2(0,0),new Vector2(scale,scale),SpriteEffects.None,0f);
     }
 }
