@@ -22,53 +22,48 @@ public class Level
         var blocks = new List<Block>();
 
         var gameB = readLevelFromFile(levelFilePath);
-        
+
         for (var i = 0; i < gameB.GetLength(0); i++)
         {
             for (var j = 0; j < gameB.GetLength(1); j++)
             {
+                (int x, int y) tile = (0, 0);
+
                 switch (gameB[i, j])
                 {
                     case 1:
-                        blocks.Add(new Block(new Vector2((j * TileSetSize), (i * TileSetSize)), TileSet,
-                            new Vector2(0 * TileSetSize, 0 * TileSetSize), TileSetSize));
+                        tile = (0, 0);
                         break;
                     case 2:
-                        blocks.Add(new Block(new Vector2((j * TileSetSize), (i * TileSetSize)), TileSet,
-                            new Vector2(0 * TileSetSize, 1 * TileSetSize), TileSetSize));
+                        tile = (0, 1);
                         break;
                     case 3:
-                        blocks.Add(new Block(new Vector2((j * TileSetSize), (i * TileSetSize)), TileSet,
-                            new Vector2(0 * TileSetSize, 2 * TileSetSize), TileSetSize));
+                        tile = (0, 2);
                         break;
                     case 4:
-                        blocks.Add(new Block(new Vector2((j * TileSetSize), (i * TileSetSize)), TileSet,
-                            new Vector2(1 * TileSetSize, 0 * TileSetSize), TileSetSize));
+                        tile = (1, 0);
                         break;
                     case 5:
-                        blocks.Add(new Block(new Vector2((j * TileSetSize), (i * TileSetSize)), TileSet,
-                            new Vector2(1 * TileSetSize, 1 * TileSetSize), TileSetSize));
+                        tile = (1, 1);
                         break;
                     case 6:
-                        blocks.Add(new Block(new Vector2((j * TileSetSize), (i * TileSetSize)), TileSet,
-                            new Vector2(1 * TileSetSize, 2 * TileSetSize), TileSetSize));
+                        tile = (1, 2);
                         break;
                     case 7:
-                        blocks.Add(new Block(new Vector2((j * TileSetSize), (i * TileSetSize)), TileSet,
-                            new Vector2(2 * TileSetSize, 0 * TileSetSize), TileSetSize));
+                        tile = (2, 0);
                         break;
                     case 8:
-                        blocks.Add(new Block(new Vector2((j * TileSetSize), (i * TileSetSize)), TileSet,
-                            new Vector2(2 * TileSetSize, 1 * TileSetSize), TileSetSize));
+                        tile = (2, 1);
                         break;
                     case 9:
-                        blocks.Add(new Block(new Vector2((j * TileSetSize), (i * TileSetSize)), TileSet,
-                            new Vector2(2 * TileSetSize, 2 * TileSetSize), TileSetSize));
+                        tile = (2, 2);
                         break;
                     default:
                         break;
                 }
 
+                blocks.Add(new Block(new Vector2(j, i) * TileSetSize, TileSet,
+                    new Vector2(tile.x, tile.y) * TileSetSize, TileSetSize));
             }
         }
 
@@ -90,7 +85,7 @@ public class Level
         }
 
         int[,] intMatrix = new int[rows, cols];
-        
+
         try
         {
             using var sr = new StreamReader(levelFilePath);
