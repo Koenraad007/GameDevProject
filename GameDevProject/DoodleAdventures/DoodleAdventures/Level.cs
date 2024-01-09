@@ -27,7 +27,7 @@ public class Level
         {
             for (var j = 0; j < gameB.GetLength(1); j++)
             {
-                (int x, int y) tile = (0, 0);
+                (int x, int y) tile = (-1, -1);
 
                 switch (gameB[i, j])
                 {
@@ -62,8 +62,9 @@ public class Level
                         break;
                 }
 
-                blocks.Add(new Block(new Vector2(j, i) * TileSetSize, TileSet,
-                    new Vector2(tile.x, tile.y) * TileSetSize, TileSetSize));
+                if (tile != (-1,-1))
+                    blocks.Add(new Block(new Vector2(j, i) * TileSetSize, TileSet,
+                        new Vector2(tile.x, tile.y) * TileSetSize, TileSetSize));
             }
         }
 
