@@ -14,7 +14,7 @@ public class Game1 : Game
     private Hero _hero;
     private Dictionary<string,Texture2D> _heroTextures;
     private List<Block> _blocks;
-    private Level lvl1;
+    private Level _lvl1;
 
     public Game1()
     {
@@ -39,8 +39,8 @@ public class Game1 : Game
             _heroTextures["legR"],
             _heroTextures["legL"]);
 
-        lvl1 = new Level(_tileSet, 32);
-        _blocks = lvl1.CreateBlocks("./level1.txt");        // txt files need to be in ./bin/Debug/net6/ -> needs to change
+        _lvl1 = new Level(_tileSet, 32);
+        _blocks = _lvl1.CreateBlocks("./../../../Levels/level1.txt");
     }
 
     protected override void LoadContent()

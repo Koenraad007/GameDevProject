@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace DoodleAdventures;
 
@@ -16,37 +16,16 @@ public class Level
         TileSet = tileSet;
         TileSetSize = tileSetSize;
     }
-    
+
     public List<Block> CreateBlocks(String levelFilePath)
     {
-        List<Block> blocks = new List<Block>();
+        var blocks = new List<Block>();
 
-        int[,] gameB = new int[8,8];
-        try
-        {
-            using (var sr = new StreamReader(levelFilePath))
-            {
-                for (int i = 0; i < 8; i++)
-                {
-                    Char[] tiles = sr.ReadLine().ToCharArray();
-                    for (int j = 0; j < 8; j++)
-                    {
-                        gameB[i, j] = tiles[j]-'0';
-                    }
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-
-        Console.WriteLine(gameB.ToString());
+        var gameB = readLevelFromFile(levelFilePath);
         
-        for (int i = 0; i < gameB.GetLength(0); i++)
+        for (var i = 0; i < gameB.GetLength(0); i++)
         {
-            for (int j = 0; j < gameB.GetLength(1); j++)
+            for (var j = 0; j < gameB.GetLength(1); j++)
             {
                 switch (gameB[i, j])
                 {
@@ -89,9 +68,47 @@ public class Level
                     default:
                         break;
                 }
+
             }
         }
 
         return blocks;
+    }
+
+    private int[,] readLevelFromFile(string levelFilePath)
+    {
+        int rows = 0;
+        int cols = 0;
+        using (var reader = File.OpenText(levelFilePath))
+        {
+            cols = reader.ReadLine().Length;
+            rows++;
+            while (reader.ReadLine() != null)
+            {
+                rows++;
+            }
+        }
+
+        int[,] intMatrix = new int[rows, cols];
+        
+        try
+        {
+            using var sr = new StreamReader(levelFilePath);
+            for (var i = 0; i < rows; i++)
+            {
+                var tiles = sr.ReadLine()?.ToCharArray();
+                for (var j = 0; j < cols; j++)
+                {
+                    if (tiles != null) intMatrix[i, j] = tiles[j] - '0';
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
+        return intMatrix;
     }
 }
